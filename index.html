@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer"><meta name="robots" content="noindex">
+<title>Opening Cowork…</title>
+<style>
+:root{--bg:#f3f5f8;--ink:#18223a;--ink2:#4a5672;--accent:#1d5fbf}
+@media (prefers-color-scheme:dark){:root{--bg:#10141d;--ink:#e7ebf3;--ink2:#b3bccd;--accent:#6b9ff0}}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;padding:16px;box-sizing:border-box}
+main{max-width:420px;text-align:center}
+a.btn{display:inline-block;margin-top:12px;background:var(--accent);color:#fff;text-decoration:none;padding:9px 18px;border-radius:8px;font-weight:600}
+p{color:var(--ink2)}
+</style></head><body><main>
+<h1 style="font-size:20px;margin:0 0 6px">Opening Cowork…</h1>
+<p id="msg">Your browser may ask to open the Claude app. Allow it (tick "always allow" to skip this next time).</p>
+<a class="btn" id="go" href="#" hidden>Open in Claude</a>
+<p style="font-size:13px">You can close this tab afterwards.</p>
+</main>
+<script>
+(function () {
+  var raw = location.hash.slice(1), url = '';
+  try { url = decodeURIComponent(raw); } catch (e) {}
+  // Only hand off Cowork links, never arbitrary URLs.
+  if (!/^claude:\/\/cowork\/new(\?|$)/.test(url)) {
+    document.getElementById('msg').textContent = 'This page only opens Cowork links from the Chief of Staff Desk, and this link is missing or invalid.';
+    document.querySelector('h1').textContent = 'Nothing to open';
+    return;
+  }
+  // Drop the to-do text from the address bar / history.
+  try { history.replaceState(null, '', location.pathname); } catch (e) {}
+  var go = document.getElementById('go'); go.href = url; go.hidden = false;
+  location.href = url;
+})();
+</script>
+</body></html>
